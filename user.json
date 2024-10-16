@@ -8,5 +8,25 @@
     "username": "mona",
     "email": "mona@gmail.com",
     "password": "$2a$12$FxvkT8OU.GTyxPINdMMwjewrtBviAFbwdXMxzntNR9Nfe0wRzxfjC"
+  },
+  {
+    "username": "menna",
+    "email": "menna@gmail.com",
+    "password": "$2a$12$v0USB7crgt8MxvY6FqREk.1LtKQcDLUWgE/k6sg6QBWEYKX6pmh9C"
+  },
+  {
+    "username": "may",
+    "email": "may@gmail.com",
+    "password": "$2a$12$KbaKnICfjR6FXS2pKfBdk.oclepP1jufChkEthTRZytmKkJRH4/Fy"
+  },
+  {
+    "username": "eyad",
+    "email": "eyad@gmail.com",
+    "password": "$2a$12$aCvf4gT5EBcGKzquFC6yh.NiBQhWTCv2sy6RGIeZEN9l2qioXhNJK"
+  },
+  {
+    "username": "sheko",
+    "email": "sheko@gmail.com",
+    "password": "$2a$12$3.GExHkAwz5XzAhjVqvUPuARCvjHUj3iTT2NognxWwa0DBtNwadna"
   }
 ]

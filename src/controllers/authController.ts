@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { readUsersFromFile, writeUsersToFile } from '../services/userReposity';
 import { generateToken } from '../utiles/signToken';
+import validator from 'validator';
+import _ from 'lodash';
 
 export const signup = async (
   req: Request,
@@ -11,51 +13,79 @@ export const signup = async (
   try {
     const { username, email, password } = req.body;
 
-    // Validate request body
     if (!username || !email || !password) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    // Read users from file
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
     const users = readUsersFromFile();
 
-    // Check if email already exists
     const existingUser = users.find((user) => user.email === email);
     if (existingUser) {
       return res.status(400).json({ message: 'Email already in use' });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Create new user
     const newUser = { username, email, password: hashedPassword };
 
-    // Add new user to users array
     users.push(newUser);
 
-    // Write users back to file
     writeUsersToFile(users);
 
-    // Generate token
-    const token = generateToken(email);
+    // remove password from the response
+    const user = _.omit(newUser, 'password');
 
-    // Return success response
+    const token = generateToken({ email });
+
     return res.status(201).json({
       message: 'User  created successfully',
       token,
       data: {
-        newUser,
+        user,
       },
     });
   } catch (error) {
-    // Log error for debugging purposes
     console.error(error);
-
-    // Return error response
     return res.status(500).json({ message: 'An error occurred' });
   }
 };
-export const login = async (req: Request, res: Response) => {};
 
-export const protectedRoute = (req: Request, res: Response) => {};
+export const login = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    const users = readUsersFromFile();
+
+    const loggedUser = users.find((user) => user.email === email);
+    if (!loggedUser) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+    const isPasswordValid = await bcrypt.compare(password, loggedUser.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    // remove the password from the response
+    const user = _.omit(loggedUser, 'password');
+
+    const token = generateToken({ email });
+    return res.status(200).json({
+      message: 'User logged in successfully',
+      token,
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: 'An error occurred' });
+  }
+};
