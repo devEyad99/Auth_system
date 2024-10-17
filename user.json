@@ -28,5 +28,15 @@
     "username": "sheko",
     "email": "sheko@gmail.com",
     "password": "$2a$12$3.GExHkAwz5XzAhjVqvUPuARCvjHUj3iTT2NognxWwa0DBtNwadna"
+  },
+  {
+    "username": "ali",
+    "email": "ali@gmail.com",
+    "password": "$2a$12$4gSqWWUvXUGO7N9eVrLK8uo5lk9joW/DSNNP9DPoUUo7NgMT/wiHK"
+  },
+  {
+    "username": "hi",
+    "email": "hi@gmail.com",
+    "password": "$2a$12$oGyWk/6/CmyDjIqR94OjqeuDFupGCHu6Fvelycb/bmaC6jVtxVTSO"
   }
 ]

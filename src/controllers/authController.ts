@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { readUsersFromFile, writeUsersToFile } from '../services/userReposity';
-import { generateToken } from '../utiles/signToken';
+import { getAccessToken } from './../utiles/jwt';
 import validator from 'validator';
 import _ from 'lodash';
 
@@ -39,7 +39,7 @@ export const signup = async (
     // remove password from the response
     const user = _.omit(newUser, 'password');
 
-    const token = generateToken({ email });
+    const token = getAccessToken({ email });
 
     return res.status(201).json({
       message: 'User  created successfully',
@@ -76,7 +76,7 @@ export const login = async (req: Request, res: Response) => {
     // remove the password from the response
     const user = _.omit(loggedUser, 'password');
 
-    const token = generateToken({ email });
+    const token = getAccessToken({ email });
     return res.status(200).json({
       message: 'User logged in successfully',
       token,
@@ -88,4 +88,8 @@ export const login = async (req: Request, res: Response) => {
     console.log(err);
     return res.status(500).json({ message: 'An error occurred' });
   }
+};
+
+export const protectedRoute = (req: Request, res: Response) => {
+  res.json({ message: 'current user', user: req.currentUser });
 };
