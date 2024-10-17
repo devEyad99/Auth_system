@@ -16,8 +16,8 @@ function grantToken(
     return result;
   };
 }
-export const getAccessToken = grantToken(secretKey, '30m');
-export const getRefreshToken = grantToken(refreshTokenSecret, '1h');
+export const getAccessToken = grantToken(secretKey, '1m');
+export const getRefreshToken = grantToken(refreshTokenSecret, '5m');
 
 function verifyToken(secret: string): (token: string) => ICurrentUser {
   return (token: string) => {
